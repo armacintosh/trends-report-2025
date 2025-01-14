@@ -66,11 +66,12 @@ st.header(f"Section: {selected_section}")
 for question in sections[selected_section]:
     st.subheader(question)
     
-    # Calculate frequency
-    freq_table = data[question].value_counts().reset_index()
+    # Calculate frequency and percentage
+    freq_table = data[question].value_counts(normalize=False).reset_index()
     freq_table.columns = ["Response", "Frequency"]
+    freq_table["Percentage"] = (freq_table["Frequency"] / freq_table["Frequency"].sum() * 100).round(2)
 
-    # Display frequency table
+    # Display frequency table with percentages
     st.dataframe(freq_table)
 
     # Create an interactive bar chart using Plotly
